@@ -30,7 +30,9 @@
                     <td class="py-2">Task1</td>
                     <td class="py-2">24/06/2024</td>
                     <td class="py-2">
-                        <font-awesome-icon class="text-blue-500 h-5 w-5" :icon="['fas', 'eye']" /> 
+                        <RouterLink :to="{name: 'view', params: {id: 1}}">
+                            <font-awesome-icon class="text-blue-500 h-5 w-5" :icon="['fas', 'eye']" /> 
+                        </RouterLink>
                         <font-awesome-icon class="text-emerald-500 h-5 w-5 mx-5" :icon="['fas', 'pen-to-square']" />
                         <font-awesome-icon class="text-red-500 h-5 w-5" :icon="['fas', 'trash']" />
                     </td>
