@@ -33,7 +33,9 @@
                         <RouterLink :to="{name: 'view', params: {id: 1}}">
                             <font-awesome-icon class="text-blue-500 h-5 w-5" :icon="['fas', 'eye']" /> 
                         </RouterLink>
-                        <font-awesome-icon class="text-emerald-500 h-5 w-5 mx-5" :icon="['fas', 'pen-to-square']" />
+                        <RouterLink :to="{name: 'edit', params: {id: 1}}">
+                            <font-awesome-icon class="text-emerald-500 h-5 w-5 mx-5" :icon="['fas', 'pen-to-square']" />
+                        </RouterLink>
                         <font-awesome-icon class="text-red-500 h-5 w-5" :icon="['fas', 'trash']" />
                     </td>
                 </tr>

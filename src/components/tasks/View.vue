@@ -17,7 +17,7 @@
             <tr>
                 <td class="py-2">1</td>
                 <td class="py-2">Task1</td>
-                <td class="py-2">31/05/2024</td>
+                <td class="py-2">24/06/2024</td>
                 <td class="py-2">This is a description of Task1</td>
             </tr>
         </tbody>
