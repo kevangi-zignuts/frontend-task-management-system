@@ -1,16 +1,18 @@
 <script setup>
+/* eslint-disable */
 import { reactive } from 'vue';
 import { RouterLink } from 'vue-router';
+import useTask from "../../composable/taskApi";
+const { createTask } = useTask();
 
 const formData = reactive({
   name: "",
   due_date: new Date(),
   description: "",
 });
-
 const handleAddTaskForm = async () => {
-    console.log("Form Submitted", formData);
-}
+    await createTask(formData);
+};
 
 </script>
 

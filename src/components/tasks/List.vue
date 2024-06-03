@@ -1,5 +1,20 @@
 <script setup>
+/* eslint-disable */
     import { RouterLink } from "vue-router";
+    import useTask from "../../composable/taskApi.js"; 
+    import { onMounted } from "vue";
+
+    const { tasks, error, getAllTasks, dalateTask } = useTask();
+    onMounted(getAllTasks);    
+
+    const deleteTaskData = async (id) => {
+        if(!window.confirm("Are you Sure ?")){
+            return
+        }
+
+        await dalateTask(id);
+        await getAllTasks();
+    }
 </script>
 
 <template>
@@ -15,7 +30,12 @@
             </div>
         </div>
 
-        <table class="table-auto w-full">
+        <div v-if="error" class=" bg-red-100 border border-red-600 p-3 m-3 rounded-md text-red-700 text-lg">
+            {{ error }}
+            <!-- {{ error.value.messgae }} -->
+        </div>
+
+        <table v-else-if="tasks" class="table-auto w-full">
             <thead class="bg-slate-600 text-white">
                 <tr>
                     <th class="py-1">No</th>
@@ -25,18 +45,18 @@
                 </tr>
             </thead>
             <tbody class="text-center">
-                <tr>
-                    <td class="py-2">1</td>
-                    <td class="py-2">Task1</td>
-                    <td class="py-2">24/06/2024</td>
+                <tr v-if="tasks.length > 0" v-for="task in tasks" :key="task.id">
+                    <td class="py-2">{{ task.id }}</td>
+                    <td class="py-2">{{ task.name }}</td>
+                    <td class="py-2">{{ task.due_date }}</td>
                     <td class="py-2">
-                        <RouterLink :to="{name: 'view', params: {id: 1}}">
+                        <RouterLink :to="{name: 'view', params: {id: task.id}}">
                             <font-awesome-icon class="text-blue-500 h-5 w-5" :icon="['fas', 'eye']" /> 
                         </RouterLink>
-                        <RouterLink :to="{name: 'edit', params: {id: 1}}">
+                        <RouterLink :to="{name: 'edit', params: {id: task.id}}">
                             <font-awesome-icon class="text-emerald-500 h-5 w-5 mx-5" :icon="['fas', 'pen-to-square']" />
                         </RouterLink>
-                        <font-awesome-icon class="text-red-500 h-5 w-5" :icon="['fas', 'trash']" />
+                        <font-awesome-icon class="text-red-500 h-5 w-5 cursor-pointer" :icon="['fas', 'trash']" @click="deleteTaskData(task.id)" />
                     </td>
                 </tr>
             </tbody>

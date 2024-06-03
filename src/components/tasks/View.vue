@@ -1,4 +1,15 @@
 <script setup>
+/* eslint-disable */
+import { onMounted } from "vue";
+import { useRoute } from 'vue-router';
+import useTask from "../../composable/taskApi.js"; 
+
+const { tasks, error, getSingleTask } = useTask();
+const route = useRoute();
+onMounted(() => {
+    getSingleTask(route.params.id)
+});
+console.log("tasks :- " , tasks);
 
 </script>
 
@@ -14,11 +25,11 @@
             </tr>
         </thead>
         <tbody class="text-center">
-            <tr>
-                <td class="py-2">1</td>
-                <td class="py-2">Task1</td>
-                <td class="py-2">24/06/2024</td>
-                <td class="py-2">This is a description of Task1</td>
+            <tr v-for="task in tasks" :key="task.id">
+                <td class="py-2">{{task.id}}</td>
+                <td class="py-2">{{task.name}}</td>
+                <td class="py-2">{{task.due_date}}</td>
+                <td class="py-2">{{task.description}}</td>
             </tr>
         </tbody>
     </table>

@@ -1,9 +1,18 @@
 <script setup>
-import { ref } from 'vue';
+/* eslint-disable */
+import { onMounted } from "vue";
+import useTask from "../../composable/taskApi.js"; 
+import { useRoute } from 'vue-router';
 
-const dueDate = ref('2024-06-24');
+const {tasks, error, getSingleTask, updateTask} = useTask();
+const { params } = useRoute();
+
+onMounted(() => {
+    getSingleTask(params.id);
+});
+
 const handleUpdateTaskForm = async () => {
-    console.log("Updated");
+    await updateTask(params.id, tasks.value.task)
 }
 </script>
 
@@ -14,35 +23,37 @@ const handleUpdateTaskForm = async () => {
     </div>
 
     <form @submit.prevent="handleUpdateTaskForm" class="w-full" id="addTaskForm">
-        <div class="flex items-center m-6">
-            <div class="w-1/5">
-                <label for="name" class="font-medium"> Task Name :- </label>
+        <div v-for="task in tasks" :key="task.id">
+            <div class="flex items-center m-6">
+                <div class="w-1/5">
+                    <label for="name" class="font-medium"> Task Name :- </label>
+                </div>
+                <div class="w-4/5">
+                    <input type="text" v-model="task.name" class="border-2 border-gray-200 w-full py-2 px-4" id="name" required>
+                </div>
             </div>
-            <div class="w-4/5">
-                <input type="text" value="Task1" class="border-2 border-gray-200 w-full py-2 px-4" id="name" required>
+            <div class="flex items-center m-6">
+                <div class="w-1/5">
+                    <label for="name" class="font-medium"> Due Date :- </label>
+                </div>
+                <div class="w-4/5">
+                    <input type="date" v-model="task.due_date" class="border-2 border-gray-200 w-full py-2 px-4" id="dueDate" required>
+                </div>
             </div>
-        </div>
-        <div class="flex items-center m-6">
-            <div class="w-1/5">
-                <label for="name" class="font-medium"> Due Date :- </label>
+            <div class="flex items-center m-6">
+                <div class="w-1/5">
+                    <label for="name" class="font-medium"> Description :- </label>
+                </div>
+                <div class="w-4/5">
+                    <textarea v-model="task.description" class="border-2 border-gray-200 w-full py-2 px-4" id="description"></textarea>
+                </div>
             </div>
-            <div class="w-4/5">
-                <input type="date" v-model="dueDate" class="border-2 border-gray-200 w-full py-2 px-4" id="dueDate" required>
+            <div class="m-8 flex justify-center">
+                <button type="submit" class="bg-purple-700 text-white font-medium py-2 rounded-md px-6 hover:bg-purple-800 mr-6">Update</button>
+                <RouterLink :to="{name: 'list'}">
+                    <button type="button" class="bg-emerald-700 text-white font-medium p-2 rounded-md px-6 hover:bg-emerald-800 mr-6">Back to Home</button>
+                </RouterLink>
             </div>
-        </div>
-        <div class="flex items-center m-6">
-            <div class="w-1/5">
-                <label for="name" class="font-medium"> Description :- </label>
-            </div>
-            <div class="w-4/5">
-                <textarea class="border-2 border-gray-200 w-full py-2 px-4" id="description">This is a description of Task1</textarea>
-            </div>
-        </div>
-        <div class="m-8 flex justify-center">
-            <button type="submit" class="bg-purple-700 text-white font-medium py-2 rounded-md px-6 hover:bg-purple-800 mr-6">Update</button>
-            <RouterLink :to="{name: 'list'}">
-                <button type="button" class="bg-emerald-700 text-white font-medium p-2 rounded-md px-6 hover:bg-emerald-800 mr-6">Back to Home</button>
-            </RouterLink>
         </div>
     </form>
 </div>
